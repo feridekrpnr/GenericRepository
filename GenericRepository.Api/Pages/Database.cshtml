@@ -1,0 +1,104 @@
+﻿@page
+@model GenericRepository.Api.Pages.DatabaseModel
+@{
+    ViewData["Title"] = "Title";
+    Layout = "~/Pages/Shared/_LayoutSite1.cshtml";
+}
+
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Projects</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card">
+
+            <script language="JavaScript">
+                function yenisayfaac(url, width, height) {
+                    window.open(url, '', 'toolbar=0,scrollbars=2,location=0,statusbar=1,menubar=0,resizable=0,width=' + width + ',height=' + height + ',left = 200,top = 100');
+                }
+            </script>
+            <a href="JavaScript:yenisayfaac('CompanyAdd','940','760');" type="button" class="btn btn-danger mb-1" style="width: 200px">Add Company</a>
+        </div>
+
+        <div class="card-body p-0">
+            <table id="companyDataTable" class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">
+                            CompanyId
+                        </th>
+                        <th style="width: 28%">
+                            Company Name
+                        </th>
+                        <th style="width: 28%">
+                            Address
+                        </th>
+                        <th style="width: 28%">
+                            Is Active
+                        </th>
+                        <th style="width: 20%">
+                            Edit
+                        </th>
+                        <th style="width: 20%">
+                            Delete
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="output">
+                    @*verilerin çoğaltılacağı yer*@
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+
+   
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+</section>
+<script type="text/javascript">
+    fetch("https://localhost:44363/api/company/getallcompanies").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    if (data.length > 0) {
+
+
+
+                        var temp = "";
+                        data.forEach((itemData) => {
+                            temp += "<tr>";
+                            temp += "<td>" + itemData.companyId + "</td>";
+                            temp += "<td>" + itemData.companyName + "</td>";
+                            temp += "<td>" + itemData.adress + "</td>";
+                            temp += "<td>" + itemData.isActive + "</td></tr>";
+
+
+                        });
+                        document.getElementById('output').innerHTML = temp;
+                    }
+                 /*  console.log(temp);*/
+                }
+            )
+        }
+    )
+</script>

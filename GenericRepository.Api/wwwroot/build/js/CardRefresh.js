@@ -15,7 +15,7 @@ import $ from 'jquery'
 const NAME = 'CardRefresh'
 const DATA_KEY = 'lte.cardrefresh'
 const EVENT_KEY = `.${DATA_KEY}`
-const JQUERY_NO_CONFLICT = $.fn[NAME]
+/*const JQUERY_NO_CONFLICT = $.fn[NAME]*/
 
 const EVENT_LOADED = `loaded${EVENT_KEY}`
 const EVENT_OVERLAY_ADDED = `overlay.added${EVENT_KEY}`
@@ -141,13 +141,13 @@ $(() => {
 /**
  * jQuery API
  * ====================================================
- */
+// */
 
-$.fn[NAME] = CardRefresh._jQueryInterface
-$.fn[NAME].Constructor = CardRefresh
-$.fn[NAME].noConflict = function () {
-  $.fn[NAME] = JQUERY_NO_CONFLICT
-  return CardRefresh._jQueryInterface
-}
+//$.fn[NAME] = CardRefresh._jQueryInterface
+//$.fn[NAME].Constructor = CardRefresh
+//$.fn[NAME].noConflict = function () {
+//  $.fn[NAME] = JQUERY_NO_CONFLICT
+//  return CardRefresh._jQueryInterface
+//}
 
 export default CardRefresh

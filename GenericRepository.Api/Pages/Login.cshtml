@@ -32,40 +32,39 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="../../index3.html" method="post">
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                <!-- form start -->
+                <form id="loginForm">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                                <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                        <!-- /.col -->
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button id="login" type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
-
                 <div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>
                     <a href="#" class="btn btn-block btn-primary">
@@ -81,7 +80,7 @@
                     <a href="forgot-password.html">I forgot my password</a>
                 </p>
                 <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
+                    <a href="Register" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
@@ -89,10 +88,95 @@
     </div>
     <!-- /.login-box -->
     <!-- jQuery -->
+    AdminLTE App
     <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
+    Bootstrap 4
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    jquery-validation
+    <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+    <!-- jquery-validation -->
+    <!--<script src="../../plugins/jquery-validation/additional-methods.min.js"></script>-->
     <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
+    <!--<script src="../../dist/js/adminlte.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <!--<script src="../../dist/js/demo.js"></script>-->
+    <!-- Page specific script -->
+    @*<script src="../../dist/js/demo.js"></script>*@
+    <!-- Page specific script -->
+    <script>
+            $(function () {
+                $.validator.setDefaults({
+                    submitHandler: function () {
+                        alert("Form successful submitted!");
+                    }
+                });
+                $('#loginForm').validate({
+                    rules: {
+
+                        email: {
+                            required: true,
+                            email: true,
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        terms: {
+                            required: true
+                        },
+                    },                    
+                    messages: {
+
+                        email: {
+                            required: "Please enter a email address",
+                            email: "Please enter a vaild email address"
+                        },
+                        password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 8 characters long"
+                        },
+                        terms: "Please accept our terms"
+                    },
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+                });
+            });
+        </script>
+    <script type="text/javascript">
+        $("#login").click(function () {
+            var theContact = {
+                email: $("[name='email']").val(),
+                password: $("[name='password']").val()
+            };
+            console.log(JSON.stringify(theContact));
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44363/api/login/login",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(theContact),
+                dataType: "json",
+                success: function (data) {
+                    $("#login").removeAttr("disabled");
+                    //alert("Login başarılı")
+                    console.log("Giriş yapıldı")
+                },
+                error: function (data) {
+                    $("#login").removeAttr("disabled");
+                    console.log("Giriş yapılamadı")
+                }
+
+            });
+        });
+    </script>
 </body>
 </html>

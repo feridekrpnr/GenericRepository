@@ -1,5 +1,3 @@
-using GenericRepository.Business.Abstract;
-using GenericRepository.Business.Concrete;
 using GenericRepository.DataAccess;
 using GenericRepository.DataAccess.Repositories;
 using GenericRepository.Entities.Repositories;
@@ -17,9 +15,12 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using GenericRepository.Api.Controllers.Helpers;
+using GenericRepository.Business.Abstract;
+using GenericRepository.Business.Concrete;
 
 namespace GenericRepository.Api
 {
@@ -35,18 +36,19 @@ namespace GenericRepository.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.addswaggerdocument();
+
+
+            services.AddSwaggerDocument();
             services.AddControllers();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); //ayný olan her request için ayný sonucu oluþtururum
             services.AddScoped<IBranchServices, BranchServices>();
             services.AddScoped<ICompanyServices, CompanyServices>();
+            services.AddTransient<GenericHelperMethods>();
             services.AddDbContext<GenericDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<GenericDBContext>();
-            //services.AddControllers();
-            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<GenericDbContext>();
-            //services.AddControllers();
-            // services.AddTransient //her talebi farký algýlar yeni sonuç oluþtururu
+            services.AddControllers();
+            //services.AddTransient //her talebi farký algýlar yeni sonuç oluþtururu
             //services.AddSingleton    //request ne olursa olsun ayný sonuç oluþtur
             services.AddMvc().AddRazorPagesOptions(opt => opt.Conventions.AddPageRoute("/Login", ""));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
@@ -61,8 +63,6 @@ namespace GenericRepository.Api
                 ClockSkew = TimeSpan.Zero //Token süresinin uzatýlmasýný saðlar
             });
             services.AddRazorPages();
-
-         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,16 +80,16 @@ namespace GenericRepository.Api
             }
 
             //    app.UseHttpsRedirection();
-            //    app.UseStaticFiles(new StaticFileOptions
-            //    {
-            //        FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(env.ContentRootPath, "Pages")),
-            //        RequestPath = "/Pages"
-            //    });
-            //    app.UseStaticFiles();
+            //    //app.UseStaticFiles(new StaticFileOptions
+            //    //{
+            //    //    FileProvider = new PhysicalFileProvider(
+            //    //         Path.Combine(env.ContentRootPath, "Pages")),
+            //    //    RequestPath = "/Pages"
+            //    //});
+
             //    app.UseRouting();
-            //    app.UseOpenApi();
-            //    app.UseSwaggerUi3();
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             //    app.UseAuthorization();
             //    app.UseEndpoints(endpoints =>
             //    {
@@ -99,12 +99,13 @@ namespace GenericRepository.Api
             //}
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //    Path.Combine(env.ContentRootPath, "Pages")),
-            //    RequestPath = "/Pages"
-            //});
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/node_modules",
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(),"node_modules"))
+                
+            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -114,5 +115,6 @@ namespace GenericRepository.Api
                 endpoints.MapRazorPages();
             });
         }
+        
     }
 }

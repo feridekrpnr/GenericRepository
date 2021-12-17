@@ -1,10 +1,9 @@
 ﻿@page
 @model GenericRepository.Api.Pages.RegisterModel
-@{
-
+@{ 
     ViewData["Title"] = "Title";
-    Layout = null;
-}
+                Layout = null; 
+    }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> //
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
@@ -31,56 +30,37 @@
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
 
-                <form action="../../index.html" method="post">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Full name">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
+                <!-- form start -->
+                <form id="quickForm">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputFullname1">Full Name</label>
+                            <input type="text" name="fullname" class="form-control" id="exampleInputFullname1" placeholder="Enter fullname">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword2">Password</label>
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password2">
+                        </div>
+                        <div class="form-group mb-0">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                                <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Retype password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                                <label for="agreeTerms">
-                                    I agree to the <a href="#">terms</a>
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                        </div>
-                        <!-- /.col -->
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" id="register" class="btn btn-primary">Register</button>
                     </div>
                 </form>
-
                 <div class="social-auth-links text-center">
                     <p>- OR -</p>
                     <a href="#" class="btn btn-block btn-primary">
@@ -100,36 +80,105 @@
     </div>
     <!-- /.register-box -->
     <!-- jQuery -->
+    AdminLTE App
     <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
+    Bootstrap 4
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    jquery-validation
+    <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+    <!-- jquery-validation -->
+    <!--<script src="../../plugins/jquery-validation/additional-methods.min.js"></script>-->
     <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
-</body>
-</html>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#register").click(function () {
-            var Model = {
-             
-                Email: $("[name='Email']").val(),
-                Password: $("[name='Password']").val(),
-                IsActive: 0
-            }
-            $.ajax({
-
-                url: 'https://localhost:44340/api/login/create',
-                type: 'POST',
-                contentType: 'application/json; charset=UTF-8',
-                dataType: 'json',
-                data: { JSON.stringify(Model) },
-                success: function (gelenveri) {
-
+    <!--<script src="../../dist/js/adminlte.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <!--<script src="../../dist/js/demo.js"></script>-->
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    alert("Form successful submitted!");
+                }
+            });
+            $('#quickForm').validate({
+                rules: {
+                    fullname: {
+                        required: true,
+                        maxlength: 20,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    terms: {
+                        required: true
+                    },
                 },
-                error: function (hata) {
-
+                messages: {
+                    Fullname: {
+                        required: "Please provide a full name",
+                        minlength: "Your full name must be no longer than 20 characters"
+                    },
+                    Email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a valid email address"
+                    },
+                    Password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    terms: "Please accept our terms"
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
                 }
             });
         });
-    });
-</script>
+    </script>
+    <script type="text/javascript">
+        $("#register").click(function () {
+           
+
+            var model = {
+                nameSurname: $("[name='fullname']").val(),
+                email: $("[name='email']").val(),
+                password: $("[name='password']").val(),
+                isActive: false
+            };
+            console.log(JSON.stringify(model));
+            var user = JSON.stringify(model);
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:44363/api/login/create',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                data: user,
+                success: function (gelenveri) {
+                    $("register").removeAttr("disabled");
+                    //alert("Kayıt işlemeniz başarılı")
+                },
+                error: function (hata) {
+                    $("register").removeAttr("disabled");
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>

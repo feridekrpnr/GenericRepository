@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace GenericRepository.Entities.Model
@@ -11,6 +12,7 @@ namespace GenericRepository.Entities.Model
         {
             Branches = new Collection<Branch>();
         }
+        [Key]
         public int CompanyId { get; set; }
      
         public string CompanyName { get; set; }

@@ -1,0 +1,75 @@
+﻿@page
+@model GenericRepository.Api.Pages.ContentAddModel
+@{
+    ViewData["Title"] = "Title";
+    Layout = "~/Pages/Shared/_LayoutSite.cshtml";
+}
+
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="card">
+
+        <h4 class="card-title">Content Ekle</h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+                <form role="form" action="" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label>Category</label>
+
+                        <select class="select2-single form-control" name="category_id" id="select2Single">
+
+
+
+                            <option value=""></option>
+
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" name="description" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Detail</label>
+                        <textarea name="detail"></textarea>
+                        <script>
+                                            CKEDITOR.replace( 'detail' );
+                        </script>
+                    </div>
+
+                    <div class="form-group">
+                        <label>İmage</label>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="select2-single form-control" name="status" id="select2Single">
+                            <option selected="selected" value="False">False</option>
+                            <option value="True">True</option>
+
+                        </select>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Content Ekle</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</section><!-- /.content -->
