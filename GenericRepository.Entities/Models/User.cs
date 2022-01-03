@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace GenericRepository.Entities.Model
+namespace GenericRepository.Entities.Models
 {
     public class User :IdentityUser<int>
     {

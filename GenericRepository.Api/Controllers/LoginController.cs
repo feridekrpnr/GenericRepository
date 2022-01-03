@@ -1,7 +1,7 @@
 ﻿using GenericRepository.Api.Controllers.Helpers;
 using GenericRepository.Api.Models;
 using GenericRepository.DataAccess;
-using GenericRepository.Entities.Model;
+using GenericRepository.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

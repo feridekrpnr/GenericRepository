@@ -5,7 +5,8 @@ using System.Text;
 
 namespace GenericRepository.Entities.Models
 {
-   public class Role :IdentityUser<int>
+    //Role olduğu için IdentityRole yazıyoruz
+   public class Role :IdentityRole<int>
     {
     }
 }

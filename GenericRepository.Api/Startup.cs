@@ -46,11 +46,11 @@ namespace GenericRepository.Api
             services.AddTransient<GenericHelperMethods>();
             services.AddDbContext<GenericDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<GenericDBContext>();
+            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<GenericDBContext>();
             services.AddControllers();
-            //services.AddTransient //her talebi farký algýlar yeni sonuç oluþtururu
-            //services.AddSingleton    //request ne olursa olsun ayný sonuç oluþtur
-            services.AddMvc().AddRazorPagesOptions(opt => opt.Conventions.AddPageRoute("/Login", ""));
+            //services.AddTransient //her talebi farký algýlar yeni sonuç oluþtururum
+            //services.AddSingleton    //request ne olursa olsun ayný sonuç oluþturur
+            services.AddMvc().AddRazorPagesOptions(opt => opt.Conventions.AddPageRoute("/Register", ""));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,//Token deðerini kimlerin-hangi uygulamalarýn kullanýcýðýný belirler
@@ -99,13 +99,13 @@ namespace GenericRepository.Api
             //}
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = "/node_modules",
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(),"node_modules"))
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    RequestPath = "/node_modules",
+            //    FileProvider = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(),"node_modules"))
                 
-            });
+            //});
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

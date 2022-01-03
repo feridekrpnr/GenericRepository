@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GenericRepository.DataAccess\GenericRepository.DataAccess.csproj" />
     <ProjectReference Include="..\GenericRepository.Entities\GenericRepository.Entities.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using GenericRepository.Entities.Model;
+﻿using GenericRepository.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

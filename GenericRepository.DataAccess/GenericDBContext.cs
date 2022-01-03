@@ -1,5 +1,4 @@
 ﻿using GenericRepository.DataAccess.Configurations;
-using GenericRepository.Entities.Model;
 using GenericRepository.Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace GenericRepository.DataAccess
 {
-    public class GenericDBContext : IdentityDbContext
+    public class GenericDBContext : IdentityDbContext<User,Role,int>
     {
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -22,20 +21,19 @@ namespace GenericRepository.DataAccess
         //    builder.ApplyConfiguration(new CompanyConfiguration());
         //    builder.ApplyConfiguration(new BranchConfiguration());
         //}
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Branch> Branches { get; set; }
-        public DbSet<User> User { get; set; }
-        public GenericDBContext(DbContextOptions<GenericDBContext> options)
-          : base(options)
-        {
-        }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
-        public GenericDBContext()
+
+        public GenericDBContext(DbContextOptions<GenericDBContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
+
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<User> User { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
     }
 }

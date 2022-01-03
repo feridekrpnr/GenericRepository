@@ -1,6 +1,6 @@
 ﻿using GenericRepository.Api.Models;
 using GenericRepository.DataAccess;
-using GenericRepository.Entities.Model;
+using GenericRepository.Entities.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

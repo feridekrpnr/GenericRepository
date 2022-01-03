@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GenericRepository.Entities.Model
+namespace GenericRepository.Entities.Models
 {
     public class Branch
     {

@@ -1,27 +1,27 @@
-﻿<script type="text/javascript">
-    fetch("https://localhost:44304/api/company/getall").then(
-res => {
-        res.json().then(
-            data => {
-                console.log(data);
-                if (data.length > 0) {
-
-
-
-                    var temp = "";
-                    data.forEach((itemData) => {
-                        temp += "<tr>";
-                        temp += "<td>" + itemData.companyNumber + "</td>";
-                        temp += "<td>" + itemData.companyName + "</td>";
-                        temp += "<td>" + itemData.address + "</td>";
-                        temp += "<td>" + itemData.creatingDate + "</td>";
-                        temp += "<td>" + itemData.updatedDate + "</td>";
-                        temp += "<td>" + itemData.isActive + "</td></tr>";
-                    });
-                    document.getElementById('output').innerHTML = temp;
-                }
-            }
-        )
-    }
-    )
-</script>
+﻿$(document).ready(function () {
+    $("#customerDatatable").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "filter": true,
+        "ajax": {
+            "url": "https://localhost:44363/api/company/getallcompanies",
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columnDefs": [{
+            "targets": [0],
+            "visible": false,
+            "searchable": false
+        }],
+        "columns": [
+            { "data": "companyId", "name": "companyId", "autoWidth": true },
+            { "data": "companyName", "name": "companyName", "autoWidth": true },
+            { "data": "adress", "name": "adress", "autoWidth": true },
+            { "data": "isActive", "name": "isActive", "autoWidth": true },
+         
+            {
+                "render": function (data, row) { return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>"; }
+            },
+        ]
+    });
+});

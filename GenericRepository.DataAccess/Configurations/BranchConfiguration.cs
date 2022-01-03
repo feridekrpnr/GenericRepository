@@ -1,4 +1,4 @@
-﻿using GenericRepository.Entities.Model;
+﻿using GenericRepository.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
