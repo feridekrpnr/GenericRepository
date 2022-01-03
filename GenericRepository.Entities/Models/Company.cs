@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace GenericRepository.Entities.Model
+namespace GenericRepository.Entities.Models
 {
     public class Company
     { 

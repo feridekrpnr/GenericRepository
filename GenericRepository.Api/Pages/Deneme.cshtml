@@ -1,0 +1,104 @@
+﻿@page
+@model GenericRepository.Api.Pages.DenemeModel
+@{
+    ViewData["Title"] = "Title";
+    Layout = "~/Pages/Shared/_LayoutSite1.cshtml";
+
+}
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Projects</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card">
+
+            <script language="JavaScript">
+                function yenisayfaac(url, width, height) {
+                    window.open(url, '', 'toolbar=0,scrollbars=2,location=0,statusbar=1,menubar=0,resizable=0,width=' + width + ',height=' + height + ',left = 200,top = 100');
+                }
+            </script>
+            <a href="JavaScript:yenisayfaac('CategoryAdd1','400','400');" type="button" class="btn btn-danger mb-1" style="width: 200px">Add Category</a>
+        </div>
+
+        <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+            <div class="col-sm-12">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="categoryDataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending"> Id</th>
+                            <th class="sorting" tabindex="0" aria-controls="categoryDataTable" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Title</th>
+                            <th class="sorting" tabindex="0" aria-controls="categoryDataTable" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Description(s)</th>
+                            <th class="sorting" tabindex="0" aria-controls="categoryDataTable" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Description(s)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="output">
+                        @*verilerin çoğaltılacağı yer*@
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /.card-body -->
+    <!-- /.card -->
+
+</section>
+<!-- DataTables  & Plugins -->
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>*@
+
+<script type="text/javascript">
+    fetch("https://localhost:44363/api/company/getallcompanies").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    if (data.length > 0) {
+
+
+                        var temp = "";
+                        data.forEach((itemData) => {
+                            temp += "<tr>";
+                            temp += "<td>" + itemData.companyId + "</td>";
+                            temp += "<td>" + itemData.companyName + "</td>";
+                            temp += "<td>" + itemData.adress + "</td>";
+                            temp += "<td>" + itemData.isActive + "</td></tr>";
+
+
+                        });
+                        document.getElementById('output').innerHTML = temp;
+                    }
+                    /*  console.log(temp);*/
+                }
+            )
+        }
+    )
+</script>
+

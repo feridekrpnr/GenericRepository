@@ -1,7 +1,7 @@
 ﻿using GenericRepository.Api.Controllers.Helpers;
 using GenericRepository.Business.Abstract;
 using GenericRepository.DataAccess;
-using GenericRepository.Entities.Model;
+using GenericRepository.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,29 +17,28 @@ namespace GenericRepository.Api.Controllers
     public class CompanyController : ControllerBase
     {
        
-         private readonly ICompanyServices _companyServices;
-        private readonly GenericDBContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly GenericHelperMethods _genericHelperMethods;
+        private readonly ICompanyServices _companyServices;
+        //private readonly GenericDBContext _context;
+        //private readonly IConfiguration _configuration;
+        //private readonly GenericHelperMethods _genericHelperMethods;
         //public CompanyController(ICompanyServices companyServices)
         //{
         //    this._companyServices = companyServices;
         //}
 
-        public CompanyController(GenericDBContext context, IConfiguration configuration, GenericHelperMethods genericHelperMethods, ICompanyServices companyServices)
+        public CompanyController(ICompanyServices companyServices)
         {
-            _context = context;
-            _configuration = configuration;
-            _genericHelperMethods = genericHelperMethods;
-            this._companyServices = companyServices;
+            //_context = context;
+            //_configuration = configuration;
+            //_genericHelperMethods = genericHelperMethods;
+            _companyServices = companyServices;
         }
 
         [HttpPost("[action]")]
-        public async Task<bool> Create([FromBody] Company company)
+        public async Task<ActionResult> Create([FromBody] Company company)
         {
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
-            return true;
+            await _companyServices.CreateCompany(company);
+            return Ok();
         }
 
         //[HttpPost("[action]")]
@@ -55,14 +54,27 @@ namespace GenericRepository.Api.Controllers
         public async Task<ActionResult<IEnumerable<Company>>>GetAllCompanies()
         {
             var company = await _companyServices.GetAllCompanies();
+            
             return Ok(company);
         }
        
         [HttpGet("GetAll")]
-        public async Task <ActionResult<IEnumerable<Company>>> GetAll()
+        public async Task <Response<IEnumerable<Company>>> GetAll()
         {
-            var categories = await _companyServices.GetAllCompanies();
-            return Ok(categories);
+            var companies = await _companyServices.GetAllCompanies();
+            if (!companies.Any())
+            {
+                return new Response<IEnumerable<Company>>().NoContent();
+            }
+            //List olsaydı .count parantez yazmamız dpğru değil.
+            return new Response<IEnumerable<Company>>().Ok(companies.Count(), companies);
         }
+        //[Route("books")]
+        //public String Index()
+        //{
+        //    return "sasasaas";
+        //}
+
+
     }
 }

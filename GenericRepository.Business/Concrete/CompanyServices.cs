@@ -1,5 +1,5 @@
 ﻿using GenericRepository.Business.Abstract;
-using GenericRepository.Entities.Model;
+using GenericRepository.Entities.Models;
 using GenericRepository.Entities.Repositories;
 using System;
 using System.Collections.Generic;

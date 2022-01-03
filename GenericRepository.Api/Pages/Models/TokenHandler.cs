@@ -1,4 +1,4 @@
-﻿using GenericRepository.Entities.Model;
+﻿using GenericRepository.Entities.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
