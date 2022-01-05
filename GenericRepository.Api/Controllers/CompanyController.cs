@@ -16,21 +16,37 @@ namespace GenericRepository.Api.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
+<<<<<<< HEAD
 
         private readonly ICompanyServices _companyServices;
         private readonly GenericDBContext _context;
         private readonly IConfiguration _configuration;
         private readonly GenericHelperMethods _genericHelperMethods;
+=======
+       
+        private readonly ICompanyServices _companyServices;
+        //private readonly GenericDBContext _context;
+        //private readonly IConfiguration _configuration;
+        //private readonly GenericHelperMethods _genericHelperMethods;
+>>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
         //public CompanyController(ICompanyServices companyServices)
         //{
         //    this._companyServices = companyServices;
         //}
 
+<<<<<<< HEAD
         public CompanyController(GenericDBContext context, IConfiguration configuration, GenericHelperMethods genericHelperMethods,ICompanyServices companyServices)
         {
             _context = context;
             _configuration = configuration;
             _genericHelperMethods = genericHelperMethods;
+=======
+        public CompanyController(ICompanyServices companyServices)
+        {
+            //_context = context;
+            //_configuration = configuration;
+            //_genericHelperMethods = genericHelperMethods;
+>>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
             _companyServices = companyServices;
         }
 
@@ -61,6 +77,7 @@ namespace GenericRepository.Api.Controllers
         [HttpPost("GetAllCompanies")]
         public async Task<Response<IEnumerable<Company>>> GetAllCompanies()
         {
+<<<<<<< HEAD
             try
             {
                 var draw = Request.Form["draw"].FirstOrDefault();
@@ -94,6 +111,11 @@ namespace GenericRepository.Api.Controllers
             {
                 throw;
             }
+=======
+            var company = await _companyServices.GetAllCompanies();
+            
+            return Ok(company);
+>>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
         }
         [HttpGet("GetAll")]
         public async Task <Response<IEnumerable<Company>>> GetAll()
