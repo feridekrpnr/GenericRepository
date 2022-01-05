@@ -85,10 +85,10 @@ namespace GenericRepository.Api.Controllers
                 }
 
                 recordsTotal = customerData.Count();
-                var data = customerData.Skip(skip).Take(pageSize).ToList();
-                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                var data = customerData.Skip(skip).Take(pageSize).ToList(); //skip sonraki sayfayı verir take ise pagesize kadar eleman verir
+                // var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
                 // return Ok(jsonData);
-                return new Response<IEnumerable<Company>>().Ok(customerData.Count(), customerData);
+                return new Response<IEnumerable<Company>>().Ok(recordsTotal, data); //data yerine customerdata olsaydı orjinal datanın hepsi dönerdi
             }
             catch (Exception ex)
             {
