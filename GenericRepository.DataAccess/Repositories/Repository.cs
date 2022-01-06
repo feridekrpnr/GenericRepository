@@ -57,5 +57,7 @@ namespace GenericRepository.DataAccess.Repositories
         {
             return await Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
+
+        
     }
 }

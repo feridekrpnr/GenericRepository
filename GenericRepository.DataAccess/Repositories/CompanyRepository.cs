@@ -21,5 +21,6 @@ namespace GenericRepository.DataAccess.Repositories
         {
             get { return Context as GenericDBContext; }
         }
+       
     }
 }

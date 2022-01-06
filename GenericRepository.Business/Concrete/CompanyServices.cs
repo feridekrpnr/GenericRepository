@@ -29,10 +29,10 @@ namespace GenericRepository.Business.Concrete
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<IEnumerable<Company>> GetAllCompanies()
+        public Task<IEnumerable<Company>> GetAllCompanies()
         {
 
-            return await _unitOfWork.Companies.GetAllAsync();
+            return  _unitOfWork.Companies.GetAllAsync();
 
         }
 

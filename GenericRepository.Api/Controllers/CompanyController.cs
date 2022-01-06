@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
 namespace GenericRepository.Api.Controllers
@@ -16,39 +17,24 @@ namespace GenericRepository.Api.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-<<<<<<< HEAD
+        private readonly ICompanyServices _companyServices;
 
-        private readonly ICompanyServices _companyServices;
-        private readonly GenericDBContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly GenericHelperMethods _genericHelperMethods;
-=======
-       
-        private readonly ICompanyServices _companyServices;
+
         //private readonly GenericDBContext _context;
         //private readonly IConfiguration _configuration;
         //private readonly GenericHelperMethods _genericHelperMethods;
->>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
+
         //public CompanyController(ICompanyServices companyServices)
         //{
         //    this._companyServices = companyServices;
         //}
 
-<<<<<<< HEAD
-        public CompanyController(GenericDBContext context, IConfiguration configuration, GenericHelperMethods genericHelperMethods,ICompanyServices companyServices)
-        {
-            _context = context;
-            _configuration = configuration;
-            _genericHelperMethods = genericHelperMethods;
-=======
+
         public CompanyController(ICompanyServices companyServices)
         {
-            //_context = context;
-            //_configuration = configuration;
-            //_genericHelperMethods = genericHelperMethods;
->>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
             _companyServices = companyServices;
         }
+
 
         [HttpPost("[action]")]
         public async Task<ActionResult> Create([FromBody] Company company)
@@ -58,7 +44,7 @@ namespace GenericRepository.Api.Controllers
         }
 
         //[HttpPost("[action]")]
-        //public async Task<Company> Create(Company company)
+        //public async Task<<Response<Company>>Create(Company company)
         //{
         //    await _companyServices.CreateCompany(company);
         //    return company;
@@ -75,9 +61,9 @@ namespace GenericRepository.Api.Controllers
         //}
 
         [HttpPost("GetAllCompanies")]
-        public async Task<Response<IEnumerable<Company>>> GetAllCompanies()
+        public async Task<IActionResult> GetAllCompanies()
         {
-<<<<<<< HEAD
+
             try
             {
                 var draw = Request.Form["draw"].FirstOrDefault();
@@ -89,10 +75,11 @@ namespace GenericRepository.Api.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
-                var customerData = (from tempcustomer in await _companyServices.GetAllCompanies() select tempcustomer);
+                var companies = await _companyServices.GetAllCompanies();
+                var customerData = (from tempcustomer in companies select tempcustomer);
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
-                    customerData = customerData.OrderBy(s => s.CompanyName == (sortColumn + "" + sortColumnDirection));
+                    customerData = customerData.AsQueryable().OrderBy(sortColumn + "" + sortColumnDirection);
                 }
                 if (!string.IsNullOrEmpty(searchValue))
                 {
@@ -103,19 +90,19 @@ namespace GenericRepository.Api.Controllers
 
                 recordsTotal = customerData.Count();
                 var data = customerData.Skip(skip).Take(pageSize).ToList(); //skip sonraki sayfayı verir take ise pagesize kadar eleman verir
-                // var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
                 // return Ok(jsonData);
-                return new Response<IEnumerable<Company>>().Ok(recordsTotal, data); //data yerine customerdata olsaydı orjinal datanın hepsi dönerdi
+                return Ok(jsonData); //data yerine customerdata olsaydı orjinal datanın hepsi dönerdi
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
-=======
-            var company = await _companyServices.GetAllCompanies();
+
+            //var company = await _companyServices.GetAllCompanies();
             
-            return Ok(company);
->>>>>>> 56f02a3582de803c9c4e22f4d303ca60e24bee41
+            //return Ok(company);
+
         }
         [HttpGet("GetAll")]
         public async Task <Response<IEnumerable<Company>>> GetAll()
@@ -125,7 +112,7 @@ namespace GenericRepository.Api.Controllers
             {
                 return new Response<IEnumerable<Company>>().NoContent();
             }
-            //List olsaydı .count parantez yazmamız dpğru değil.
+            //List olsaydı .count parantez yazmamız dpğru olmazdı.
             return new Response<IEnumerable<Company>>().Ok(companies.Count(), companies);
         }
         //[Route("books")]
