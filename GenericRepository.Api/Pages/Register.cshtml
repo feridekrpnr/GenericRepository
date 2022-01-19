@@ -1,9 +1,9 @@
 ﻿@page
 @model GenericRepository.Api.Pages.RegisterModel
-@{ 
+@{
     ViewData["Title"] = "Title";
-    Layout = null; 
-    }
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +38,7 @@
                             <input type="text" name="fullname" class="form-control" id="exampleInputFullname1" placeholder="Enter fullname">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
+                            <label for="exampleInputEmail1">Email Address</label>
                             <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
                         </div>
                         <div class="form-group">
@@ -152,10 +152,9 @@
     </script>
     <script type="text/javascript">
         $("#register").click(function () {
-           
 
             var model = {
-                nameSurname: $("[name='fullname']").val(),
+                userName: $("[name='fullname']").val(),
                 email: $("[name='email']").val(),
                 password: $("[name='password']").val(),
                 isActive: false
@@ -177,7 +176,6 @@
                 }
             });
         });
-
     </script>
 
 </body>

@@ -1,0 +1,145 @@
+﻿@page
+@model GenericRepository.Api.Pages.contaddModel
+@{
+    ViewData["Title"] = "Title";
+    //Layout = "~/Pages/Shared/_LayoutSite1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Project Add</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+
+    <div class="wrapper">
+
+        <div class="content-wrapper">
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"> Add Company</h3>
+
+                            </div>
+                            <form id="quickForm">
+                                <div class="card-body">
+                                    <div class="input-group-append">
+
+                                        <label>Company Name</label>
+                                        <input type="text" name="companyName" class="form-control" id="exampleInputTitle1">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group-append">
+
+                                            <label>Address</label>
+                                            <input type="text" name="adress" class="form-control" id="exampleInputDescription1">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" name="AddCompany" class="btn btn-primary" id="AddCompany">Add Company</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+
+
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+</body>
+</html>
+<script>
+    $(function () {
+        $.validator.setDefaults({
+            submitHandler: function () {
+                alert("Form successful submitted!");
+            }
+        });
+        $('#quickForm').validate({
+            rules: {
+                companyName: {
+                    required: true,
+                    maxlength: 20,
+                },
+                adress: {
+                    required: true,
+                    minlength: 5,
+                },
+            },
+            messages: {
+                CompanyName: {
+                    required: "Please enter a company name",
+                    maxlength: "Your company name must be no longer than 20 characters"
+                },
+                Address: {
+                    required: "Please enter a  address",
+                    maxlength: "Your address must be no longer than 20 characters"
+                },
+                terms: "Please accept our terms"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                (element).closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            },
+
+
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    $("#AddCompany").click(function () {
+
+        var model = {
+            companyName: $("[name='companyName']").val(),
+            adress: $("[name='adress']").val(),
+            isActive: false
+        };
+        console.log(JSON.stringify(model));
+        var company = JSON.stringify(model);
+        $.ajax({
+            type: 'POST',
+            url: 'https://localhost:44363/api/company/create',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: company,
+            success: function (gelenveri) {
+                $("AddCompany").removeAttr("disabled");
+                alert("Kayıt işleminiz başarılı");
+            },
+            error: function (hata) {
+                $("AddCompany").removeAttr("disabled");
+            }
+        });
+    });
+</script>

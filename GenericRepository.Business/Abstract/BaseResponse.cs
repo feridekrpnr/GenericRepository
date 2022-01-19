@@ -13,6 +13,8 @@ namespace GenericRepository.Business.Abstract
         public List<string> Errors { get; set; } = null;
         public int ErrorCode { get; set; } = 0;
         public int? TotalCount { get; set; } = null;
+        public int? RecordsTotal { get; set; } = null;
+        public int? RecordsFiltered { get; set; } = null;
     }
 
 }

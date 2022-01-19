@@ -20,6 +20,7 @@ namespace GenericRepository.Business.Concrete
         public async Task<Company> CreateCompany(Company company)
         {
             await _unitOfWork.Companies.AddAsync(company);
+            await _unitOfWork.CommitAsync();
             return company;
         }
 
@@ -41,12 +42,16 @@ namespace GenericRepository.Business.Concrete
             return await _unitOfWork.Companies.GetByIdAsync(id);
         }
 
-        public async Task UpdateCompany(Company companyToBeUpdate, Company company)
+        //public async Task UpdateCompany(Company companyToBeUpdate, Company company)
+        //{
+        //    companyToBeUpdate.CompanyName = company.CompanyName;
+        //    await _unitOfWork.CommitAsync();
+        //}
+
+        public async Task UpdateCompany(Company company)
         {
-            companyToBeUpdate.CompanyName = company.CompanyName;
+            _unitOfWork.Companies.Update(company);
             await _unitOfWork.CommitAsync();
         }
-
-       
     }
 }

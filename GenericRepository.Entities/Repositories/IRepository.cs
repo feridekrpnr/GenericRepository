@@ -22,6 +22,6 @@ namespace GenericRepository.Entities.Repositories
        void Remove(TEntity entity);
        void RemoveRange(IEnumerable<TEntity> entities); // birden fazla silmek için
 
-       
+        void Update(TEntity entity);
     }
 }

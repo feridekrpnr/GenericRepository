@@ -30,6 +30,7 @@ namespace GenericRepository.DataAccess
         public DbSet<Company> Companies { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Product> Product { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{

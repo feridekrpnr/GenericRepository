@@ -2,62 +2,31 @@
 @model GenericRepository.Api.Pages.DatabaseModel
 @{
     ViewData["Title"] = "Title";
-    Layout = null; // Layout olarak bunu kullanıyorsun. Bu layout a eklemen lazım css leri js leri . O yüzden oraya ekledim
+    Layout = "~/Pages/Shared/_LayoutSite1.cshtml";
+    //"~/Pages/Shared/_LayoutSite1.cshtml";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Company Name</th>
+            <th>Adress</th>
+            <th>Is Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
 
-<div class="container">
-    <br />
-    <div style="width:90%; margin:0 auto;">
-        <table id="customerDatatable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Company Name</th>
-                    <th>Address</th>
-                    <th>Is Active</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/datatable.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script src="https://cdn.datatables.net/1.11.3/js/jquery.datatables.min.js"></script>
+      <script src="~/js/datatable.js"></script>*@
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#customerDatatable").datatable({
-            "processing": true,
-            "serverside": true,
-            "filter": true,
-            "ajax": {
-                "url": "https://localhost:44363/api/company/getallcompanies",
-                "type": "POST",
-                "datatype": "json",
-                "contenttype": "application/x-www-form-urlencoded",
-            },
-            "columndefs": [{
-                "targets": [0],
-                "visible": false,
-                "searchable": false
-            }],
-            "columns": [
-                { "data": "companyId", "name": "companyId", "autowidth": true },
-                { "data": "companyName", "name": "companyName", "autowidth": true },
-                { "data": "adress", "name": "adress", "autowidth": true },
-                { "data": "isActive", "name": "isActive", "autowidth": true },
-
-                {
-                    "render": function (data, row) { return "<a href='#' class='btn btn-danger' onclick=deletecustomer('" + row.id + "'); >delete</a>"; }
-                },
-            ]
-        });
-    });
-</script>
+}
 
 

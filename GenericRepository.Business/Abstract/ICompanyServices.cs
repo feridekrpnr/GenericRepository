@@ -11,7 +11,7 @@ namespace GenericRepository.Business.Abstract
         Task<IEnumerable<Company>> GetAllCompanies();
         Task<Company> GetCompanyById(int id);
         Task<Company> CreateCompany(Company company);
-        Task UpdateCompany(Company companyToBeUpdate, Company company);
+        Task UpdateCompany(Company company);
         Task DeleteCompany(Company company);
 
     }

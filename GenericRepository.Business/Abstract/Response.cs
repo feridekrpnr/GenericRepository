@@ -16,7 +16,11 @@ namespace GenericRepository.Business.Abstract
             //generic doğru
             return new Response<T>() { Data = data, Code = HttpStatusCode.OK, Message = "Success", FriendlyMessage = friendlyMessage, TotalCount = totalCount };
         }
-
+        public Response<T> Error(int totalCount, T data, string message = "Error")
+        {
+            //generic doğru
+            return new Response<T>() { Data = data, Code = HttpStatusCode.OK, Message = "Error", FriendlyMessage = message, RecordsTotal = totalCount, RecordsFiltered = totalCount };
+        }
         public Response<T> Created(T data, string friendlyMessage = "Successfully")
         {
             return new Response<T>() { Data = data, Code = HttpStatusCode.Created, Message = "Created", FriendlyMessage = friendlyMessage };

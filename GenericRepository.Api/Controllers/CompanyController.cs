@@ -20,7 +20,7 @@ namespace GenericRepository.Api.Controllers
         private readonly ICompanyServices _companyServices;
 
 
-        //private readonly GenericDBContext _context;
+        private readonly GenericDBContext _context;
         //private readonly IConfiguration _configuration;
         //private readonly GenericHelperMethods _genericHelperMethods;
 
@@ -36,13 +36,13 @@ namespace GenericRepository.Api.Controllers
         }
 
 
-        [HttpPost("[action]")]
-        public async Task<ActionResult> Create([FromBody] Company company)
-        {
-            await _companyServices.CreateCompany(company);
-            return Ok();
-        }
-
+        //[HttpPost("[action]")]
+        //public async Task<bool> CreateCompany([FromBody] Company company)
+        //{
+        //    _context.Companies.Add(company);
+        //    await _context.SaveChangesAsync();
+        //    return true;
+        //}
         //[HttpPost("[action]")]
         //public async Task<<Response<Company>>Create(Company company)
         //{
@@ -79,7 +79,7 @@ namespace GenericRepository.Api.Controllers
                 var customerData = (from tempcustomer in companies select tempcustomer);
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
-                    customerData = customerData.AsQueryable().OrderBy(sortColumn + "" + sortColumnDirection);
+                    customerData = customerData.OrderBy(s => s.CompanyName == (sortColumn + " " + sortColumnDirection));
                 }
                 if (!string.IsNullOrEmpty(searchValue))
                 {
@@ -91,7 +91,7 @@ namespace GenericRepository.Api.Controllers
                 recordsTotal = customerData.Count();
                 var data = customerData.Skip(skip).Take(pageSize).ToList(); //skip sonraki sayfayı verir take ise pagesize kadar eleman verir
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
-                // return Ok(jsonData);
+                //  return new Response<IEnumerable<Company>>().Ok(recordsTotal, data);
                 return Ok(jsonData); //data yerine customerdata olsaydı orjinal datanın hepsi dönerdi
             }
             catch (Exception)
@@ -115,6 +115,55 @@ namespace GenericRepository.Api.Controllers
             //List olsaydı .count parantez yazmamız dpğru olmazdı.
             return new Response<IEnumerable<Company>>().Ok(companies.Count(), companies);
         }
+
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> Create([FromBody] Company company)
+        {
+            await _companyServices.CreateCompany(company);
+
+            return Ok();
+        }
+        //[HttpPost("[action]")]
+        //public async Task<Response<Company>> CreateUpdate(Company company)
+        //{
+
+        //    try
+        //    {
+        //        if (company.CompanyId == 0)
+        //            await _companyServices.CreateCompany(company);
+        //        else await _companyServices.UpdateCompany(company);
+        //        return new Response<Company>().Ok(1, company);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Response<Company>().Error(1, company, ex.ToString());
+        //    }
+        //}
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _context.Companies.FindAsync(id);
+            if (result == null)
+            {
+                return new JsonResult(new { success = false, message = "Error while deleting" });
+            }
+            _context.Companies.Remove(result);
+            await _context.SaveChangesAsync();
+            return new JsonResult(new { success = true, error = "Deleted Successfully" });
+        }
+
+        //[HttpPost("[action]/{id}")]
+        //public async Task Delete(int id)
+        //{
+        //    if (id != 0)
+        //    {
+        //        var deleteData = await _companyServices.GetCompanyById(id);
+
+        //        await _companyServices.DeleteCompany(deleteData);
+        //    }
+        //}
+
         //[Route("books")]
         //public String Index()
         //{
